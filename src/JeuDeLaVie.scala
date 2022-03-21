@@ -91,14 +91,31 @@ object JeuDeLaVie {
 		afficherGrille(q)
 	}*/
 
-	/*def voisines8(l:Int,c:Int):List[(Int,Int)]={
-		val g=Grille();
-		g::(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)
+	//q3
 
-	}
+def voisines8(l:Int,c:Int):List[(Int,Int)]={
+	val g=Grille();
+	g::(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)
+	
+}
 
-	def survivantes(g:Grille):Grille=g match{
-		case Nil=>Nil
-		case t::q=>
-	}*/
+//q4
+
+def survivantes(g:Grille):Grille=g match{
+	case Nil=>Nil
+	case t::q=>
+		val voisines=compte(g,voisines8(t._1,t._2))
+		if(voisines>2 && voisines<3){
+			t::survivantes(q)
+		}
+		else survivantes(q)
+}
+
+def compte(g:Grille,vois:Grille):Int=vois match{
+	case Nil=>Nil
+	case t::q=>
+		val l=g filter(x=>x==t)
+		if(l!=Nil) 1+compte(g,q)
+		else compte(g,q)
+}
 }
