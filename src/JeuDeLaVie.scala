@@ -10,6 +10,7 @@ object JeuDeLaVie {
 
 	type Grille = List[(Int,Int)]
 
+	//q1
 	def chaineToGrille(l:List[String]):Grille = {
 		def coupleCroix(s:String, colonne:Int, ligne:Int, acc:Grille): Grille ={
 			if(colonne < s.length){
@@ -36,6 +37,7 @@ object JeuDeLaVie {
 		donnerCouples(l, 0)
 	}
 
+	//q2
 	def afficherGrille(g:Grille):Unit = {
 		// find minimal couple in the grid
 		val min = g reduceLeft ((a,b) => {(
@@ -75,47 +77,31 @@ object JeuDeLaVie {
 		iterer(min)
 	}
 
-
-	/*def afficherGrille(g:Grille):String=g match{
-	case Nil => ""
-	case (a,b)::q =>
-		def aux(i:Int):Unit={
-			if(i<=0) print("X")
-			else{
-				print(" ")
-				aux(i-1)
-			}
-		}
-		aux(b)
-		println()
-		afficherGrille(q)
-	}*/
-
 	//q3
+	def voisines8(l:Int,c:Int):List[(Int,Int)]={
+		val g:Grille
+		g::(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)
 
-def voisines8(l:Int,c:Int):List[(Int,Int)]={
-	val g=Grille();
-	g::(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)
-	
-}
+	}
 
-//q4
+	//q4
+	def survivantes(g:Grille):Grille=g match{
+		case Nil=>Nil
+		case t::q=>
+			val voisines=compte(g,voisines8(t._1,t._2))
+			if(voisines>2 && voisines<3){
+				t::survivantes(q)
+			}
+			else survivantes(q)
+	}
 
-def survivantes(g:Grille):Grille=g match{
-	case Nil=>Nil
-	case t::q=>
-		val voisines=compte(g,voisines8(t._1,t._2))
-		if(voisines>2 && voisines<3){
-			t::survivantes(q)
-		}
-		else survivantes(q)
-}
+	def compte(g:Grille,vois:Grille):Int=vois match{
+		case Nil => 0
+		case t::q=>
+			val l=g filter(x=>x==t)
+			if(l!=Nil) 1+compte(g,q)
+			else compte(g,q)
+	}
 
-def compte(g:Grille,vois:Grille):Int=vois match{
-	case Nil=>Nil
-	case t::q=>
-		val l=g filter(x=>x==t)
-		if(l!=Nil) 1+compte(g,q)
-		else compte(g,q)
-}
+	def candidates(g:Grille)
 }
