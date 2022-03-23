@@ -2,10 +2,18 @@ import java.util.NoSuchElementException
 
 object JeuDeLaVie {
 	def main(args: Array[String]): Unit = {
-		val l = List("X  XX", "X   X", "X X X")
+		val l = List(
+			"  X  ",
+			" XXX ",
+			"XX XX",
+			" XXX ",
+			"  X  "
+		)
 		val v = chaineToGrille(l)
 		println(v)
 		afficherGrille(v)
+		val g: Grille = survivantes(v)
+		afficherGrille(g)
 	}
 
 	type Grille = List[(Int,Int)]
@@ -78,10 +86,8 @@ object JeuDeLaVie {
 	}
 
 	//q3
-	def voisines8(l:Int,c:Int):List[(Int,Int)]={
-		val g:Grille
-		g::(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)
-
+	def voisines8(l:Int,c:Int):List[(Int, Int)] = {
+		(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)::Nil
 	}
 
 	//q4
@@ -103,5 +109,5 @@ object JeuDeLaVie {
 			else compte(g,q)
 	}
 
-	def candidates(g:Grille)
+	//def candidates(g:Grille)
 }
