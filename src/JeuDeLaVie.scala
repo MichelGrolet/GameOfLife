@@ -109,5 +109,33 @@ object JeuDeLaVie {
 			else compte(g,q)
 	}
 
-	//def candidates(g:Grille)
+	//q5
+
+	def candidates(g:Grille):Grille=g match{
+		case Nil=>Nil
+		case (a,b)::q=>val g2=voisines8(a,b)
+			
+	}
+
+	//q6
+
+	def naissances(g:Grille):Grille= g match{
+		case Nil=>Nil
+		case t::q=>val n=candidates(t)
+			
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
