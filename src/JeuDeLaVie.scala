@@ -18,7 +18,7 @@ object JeuDeLaVie {
 		jeuDeLaVie(l, 10)
 		//jdlv
 		moteur(l, 10, naitJDLV, survitJDLV, voisines8)
-		moteur(l, 10, nait)
+
 	}
 
 	type Grille = List[(Int,Int)]
@@ -143,36 +143,73 @@ object JeuDeLaVie {
 			jeuDeLaVie(concat(naissances(init), survivantes(init)), n-1)
 		}
 
-	//q8
+	/**
+	 * Q8
+	 * @param l ligne concernée
+	 * @param c colonne concernée
+	 * @return liste des coordonnées des 4 voisines
+	 */
 	def voisines4(l:Int,c:Int):List[(Int, Int)] = (l-1,c)::(l,c-1)::(l,c+1)::(l+1,c)::Nil
 
-	//q9 fredkin
+	/**
+	 * Q9
+	 * @param nbVoisines nombre de voisines à vérifier
+	 * @return booléen indiquant si la case naît
+	 */
 	def naitJDLV(nbVoisines:Int):Boolean = nbVoisines==3
-	def survitJDLV(nbVoisines:Int):Boolean = nbVoisines==2||nbVoisines==3
-
 	def naitF(nbVoisines:Int):Boolean = nbVoisines%2 == 1
+
+	/**
+	 * Q9
+	 * @param nbVoisines nombre de voisines à vérifier
+	 * @return booléen indiquant si la case survit
+	 */
+	def survitJDLV(nbVoisines:Int):Boolean = nbVoisines==2||nbVoisines==3
 	def survitF(nbVoisines:Int):Boolean = nbVoisines%2 == 1
 
-	def survivantesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+	/**
+	 * Q10
+	 * @param g grille concernée
+	 * @param survit fonction de survie
+	 * @param voisines fonction des voisines
+	 * @return grille des survivantes
+	 */
+	def survivantesG(g:Grille, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
 		g filter((a, b) => survit((voisines(a, b) filter ((va, vb)=>g.contains((va, vb)))).length))
 
-	def candidatesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+	/**
+	 * Q10
+	 * @param g grille concernée
+	 * @param voisines fonction des voisines
+	 * @return grille des candidates
+	 */
+	def candidatesG(g:Grille, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
 		(g foldLeft List.empty)((acc, elem)=> acc++(voisines(elem._1, elem._2) filter ((va, vb)=>(!g.contains((va, vb))))))
 
-	def naissancesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
-		candidatesG(g, nait, survit, voisines) filter((ord, abs) => nait((voisines(ord, abs) filter ((va, vb)=>g.contains((va, vb)))).length))
+	/**
+	 * Q10
+	 * @param g grille concernée
+	 * @param nait fonction des naissances
+	 * @param voisines liste des voisines
+	 * @return liste des naissances
+	 */
+	def naissancesG(g:Grille, nait:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+		candidatesG(g, voisines) filter((ord, abs) => nait((voisines(ord, abs) filter ((va, vb)=>g.contains((va, vb)))).length))
 
-	//q11
+	/**
+	 * Q11
+	 * @param init grille initiale
+	 * @param n nombre d'itérations à afficher
+	 * @param nait règles de naissance
+	 * @param survit règles de survie
+	 * @param voisines règles des voisines
+	 */
 	def moteur(init:Grille, n:Int, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Unit =
 		if (n>0) {
 			afficherGrille(init)
 			println(init)
 			println("\n-=--=--=--=--=--=--=--=--=-\n")
-			jeuDeLaVie(concat(naissancesG(init, nait, survit, voisines), survivantesG(init, nait, survit, voisines)), n-1)
+			jeuDeLaVie(concat(naissancesG(init, nait, voisines), survivantesG(init, survit, voisines)), n-1)
 		}
-
-	//q8
-	def voisines4(l:Int,c:Int):List[(Int, Int)] =
-		(l-1,c)::(l,c-1)::(l,c+1)::(l+1,c)::Nil
 }
 
