@@ -2,14 +2,14 @@ import java.util.NoSuchElementException
 
 object JeuDeLaVie {
 	def main(args: Array[String]): Unit = {
-		val l = chaineToGrille(List(
+		val l = chainesToGrille(List(
 			"  X  ",
 			" XXX ",
 			"XX XX",
 			" XXX ",
 			"  X  "
 		))
-		val l2 = chaineToGrille(List(
+		val l2 = chainesToGrille(List(
 			" X ",
 			"  X",
 			"XXX"
@@ -20,8 +20,23 @@ object JeuDeLaVie {
 
 	type Grille = List[(Int,Int)]
 
+	/*
+		def lignes(l:List[String],ligne:Int):Grille=l match{
+  			case Nil=>Nil
+  			case t::q=>colonnes(t,ligne,0)++lignes(q,ligne+1)
+  		}
+
+  		def colonnes(l:String,ligne:Int,col:Int):Grille=l match{
+  			case ""=>Nil
+  			case l=> if(l.head=='X') (ligne,col)::colonnes(l.tail,ligne,col+1)
+  				else colonnes(l.tail,ligne,col+1)
+  		}
+
+		def chainesToGrille(l:List[String]):Grille=lignes(l,0)
+	*/
+
 	//q1
-	def chaineToGrille(l:List[String]):Grille = {
+	def chainesToGrille(l:List[String]):Grille = {
 		def coupleCroix(s:String, colonne:Int, ligne:Int, acc:Grille): Grille ={
 			if(colonne < s.length){
 				if(s.charAt(colonne) == 'X'){
@@ -60,10 +75,10 @@ object JeuDeLaVie {
 			// couple maximal de la grille
 			val max = g reduceLeft ((a, b) =>
 				(if (a._1 < b._1) b._1 else a._1,
-				if (a._2 > b._2) a._2 else b._2))
+				if (a._2 >= b._2) a._2 else b._2))
 
 			// cherche c dans g
-			def grilleContient(c: (Int, Int)): Boolean = !(g filter (curr => curr == c)).isEmpty
+			def grilleContient(c: (Int, Int)): Boolean = g.contains(c)
 
 			// itère de min à max et affiche quand le couple est dans g
 			// ._1 : ligne concernée
@@ -109,7 +124,7 @@ object JeuDeLaVie {
 	def naissances(g:Grille):Grille =
 		candidates(g) filter((ord, abs) => listeVoisinesVivantes(ord, abs, g).length == 3)
 
-    //q7
+        //q7
 	def jeuDeLaVie(init:Grille, n:Int):Unit =
 		if (n>0) {
 			afficherGrille(init)
@@ -118,5 +133,9 @@ object JeuDeLaVie {
 			// TODO : concaténer les deux listes en dessous au lieu de faire ++
 			jeuDeLaVie(naissances(init)++survivantes(init), n-1)
 		}
+
+	//q8
+	def voisines4(l:Int,c:Int):List[(Int, Int)] =
+		(l-1,c)::(l,c-1)::(l,c+1)::(l+1,c)::Nil
 }
 
