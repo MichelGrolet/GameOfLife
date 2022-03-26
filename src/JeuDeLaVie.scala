@@ -15,7 +15,10 @@ object JeuDeLaVie {
 			"XXX"
 		))
 
-		jeuDeLaVie(l, 4)
+		jeuDeLaVie(l, 10)
+		//jdlv
+		moteur(l, 10, naitJDLV, survitJDLV, voisines8)
+		moteur(l, 10, nait)
 	}
 
 	type Grille = List[(Int,Int)]
@@ -69,16 +72,19 @@ object JeuDeLaVie {
 		else {
 			// couple minimal de la grille
 			val min = g reduceLeft ((a, b) =>
-				(if (a._1 < b._1) a._1 else b._1,
-				if (a._2 >= b._2) b._2 else a._2))
+				val (a1, a2) = a
+				val (b1, b2) = b
+				(if (a1 < b1) a1 else b1,
+				if (a2 > b2) b2 else a2))
+			println("min : "+min)
 
 			// couple maximal de la grille
 			val max = g reduceLeft ((a, b) =>
-				(if (a._1 < b._1) b._1 else a._1,
-				if (a._2 >= b._2) a._2 else b._2))
-
-			// cherche c dans g
-			def grilleContient(c: (Int, Int)): Boolean = g.contains(c)
+				val (a1, a2) = a
+				val (b1, b2) = b
+				(if (a1 < b1) b1 else a1,
+				if (a2 > b2) a2 else b2))
+			println("max : "+max)
 
 			// itère de min à max et affiche quand le couple est dans g
 			// ._1 : ligne concernée
@@ -89,23 +95,26 @@ object JeuDeLaVie {
 					// si il reste des colonnes :
 					if (c._2 <= max._2) {
 						// si c est en X dans la grille :
-						if (grilleContient(c)) print(" X ")
+						if (g.contains(c)) {
+							print(" X ")
+							//println("("+c._1+","+c._2+")")
+						}
 						else print("   ")
 						iterer((c._1, c._2 + 1))
 					} else { // ligne suivante
 						println("")
-						iterer((c._1 + 1, 0))
+						iterer((c._1 + 1, min._2))
 					}
 				}
 			}
+			println()
 			iterer(min)
+			println()
 		}
 	}
 
 	//q3
-	def voisines8(l:Int,c:Int):List[(Int, Int)] =
-		(l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)::Nil
-
+	def voisines8(l:Int,c:Int):List[(Int, Int)] = (l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)::Nil
 
 	//q4
 	def listeVoisinesVivantes(a:Int, b:Int, g:Grille):Grille = voisines8(a, b) filter ((va, vb)=>g.contains((va, vb)))
@@ -121,17 +130,45 @@ object JeuDeLaVie {
 
 
 	//q6
-	def naissances(g:Grille):Grille =
-		candidates(g) filter((ord, abs) => listeVoisinesVivantes(ord, abs, g).length == 3)
+	def naissances(g:Grille):Grille = candidates(g) filter((ord, abs) => listeVoisinesVivantes(ord, abs, g).length == 3)
 
-        //q7
+	//q7
+	def concat(a: Grille, b:Grille):Grille = (a foldLeft b)((acc, elem)=> if(!acc.contains(elem)) acc ++ List(elem) else acc)
+
 	def jeuDeLaVie(init:Grille, n:Int):Unit =
 		if (n>0) {
 			afficherGrille(init)
 			println(init)
 			println("\n-=--=--=--=--=--=--=--=--=-\n")
-			// TODO : concaténer les deux listes en dessous au lieu de faire ++
-			jeuDeLaVie(naissances(init)++survivantes(init), n-1)
+			jeuDeLaVie(concat(naissances(init), survivantes(init)), n-1)
+		}
+
+	//q8
+	def voisines4(l:Int,c:Int):List[(Int, Int)] = (l-1,c)::(l,c-1)::(l,c+1)::(l+1,c)::Nil
+
+	//q9 fredkin
+	def naitJDLV(nbVoisines:Int):Boolean = nbVoisines==3
+	def survitJDLV(nbVoisines:Int):Boolean = nbVoisines==2||nbVoisines==3
+
+	def naitF(nbVoisines:Int):Boolean = nbVoisines%2 == 1
+	def survitF(nbVoisines:Int):Boolean = nbVoisines%2 == 1
+
+	def survivantesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+		g filter((a, b) => survit((voisines(a, b) filter ((va, vb)=>g.contains((va, vb)))).length))
+
+	def candidatesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+		(g foldLeft List.empty)((acc, elem)=> acc++(voisines(elem._1, elem._2) filter ((va, vb)=>(!g.contains((va, vb))))))
+
+	def naissancesG(g:Grille, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Grille =
+		candidatesG(g, nait, survit, voisines) filter((ord, abs) => nait((voisines(ord, abs) filter ((va, vb)=>g.contains((va, vb)))).length))
+
+	//q11
+	def moteur(init:Grille, n:Int, nait:Int=>Boolean, survit:Int=>Boolean, voisines:(Int,Int)=>List[(Int, Int)]):Unit =
+		if (n>0) {
+			afficherGrille(init)
+			println(init)
+			println("\n-=--=--=--=--=--=--=--=--=-\n")
+			jeuDeLaVie(concat(naissancesG(init, nait, survit, voisines), survivantesG(init, nait, survit, voisines)), n-1)
 		}
 
 	//q8
