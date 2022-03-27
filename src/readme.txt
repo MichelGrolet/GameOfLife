@@ -5,3 +5,5 @@ Nous avons eu des problème de compatibilité de versions pour les tests unitair
 
 Du coup, on a quand même laissé la classe de test, mais nous avons rajouté les tests
 dans le main pour pouvoir tester.
+
+Les fonctions sont justes après la fonction main dans le programme principal.

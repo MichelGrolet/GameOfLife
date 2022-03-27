@@ -34,22 +34,22 @@ object JeuDeLaVie {
 
 	//Test q1 : 1
 		
-		assert(t4===List((0,2),(1,1),(1,2),(1,3),(2,0),(2,1),(2,3),(2,4),(3,1),(3,2),(3,3),(4,2)))
+		assert(t4==List((0,2),(1,1),(1,2),(1,3),(2,0),(2,1),(2,3),(2,4),(3,1),(3,2),(3,3),(4,2)))
 		
 	
 	//Test q1 : 2
 		
-		assert(t4===List((0,1),(1,2),(2,0),(2,1),(2,2),(3,2)))
+		assert(t4==List((0,1),(1,2),(2,0),(2,1),(2,2),(3,2)))
 		
 
 	//Test q1 : 3
 		
-		assert(t4===List())
+		assert(t4==List())
 		
 
 	//Test q1 : 4
 		
-		assert(t4===List((2,31)))
+		assert(t4==List((2,31)))
 		
 
 
@@ -60,12 +60,12 @@ object JeuDeLaVie {
 
 	//Test q3 : 1
 		
-    	assert(vois81===List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3)))
+    	assert(vois81==List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3)))
   		
 
 	//Test q3 : 2
 		
-    	assert(vois82===List((-3,4),(-3,5),(-3,6),(-2,4),(-2,6),(-1,4),(-1,5),(-1,6)))
+    	assert(vois82==List((-3,4),(-3,5),(-3,6),(-2,4),(-2,6),(-1,4),(-1,5),(-1,6)))
   		
 
 		
@@ -76,12 +76,12 @@ object JeuDeLaVie {
 
 	//Test q4 : 1
 		
-    	assert(survivantes(surv1)===List())
+    	assert(survivantes(surv1)==List())
   		
 
 	//Test q4 : 2
 		
-    	assert(survivantes(surv2)===List((1,2)))
+    	assert(survivantes(surv2)==List((1,2)))
   		
 
 
@@ -92,12 +92,12 @@ object JeuDeLaVie {
 
 	//Test q5 : 1
 		
-    	assert(candidates(cand1))===List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3))
+    	assert(candidates(cand1))==List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3))
   		
 
 	//Test q5 : 2
 		
-    	assert(candidates(cand2))===List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3),(1,4),(2,3),(2,4),(3,2),(3,3),(3,4))
+    	assert(candidates(cand2))==List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3),(1,4),(2,3),(2,4),(3,2),(3,3),(3,4))
   		
 
 	//Q6
@@ -107,12 +107,12 @@ object JeuDeLaVie {
 
 	//Test q6 : 1
 		
-    	assert(naissances(nais1))===List()
+    	assert(naissances(nais1))==List()
   		
 
 	//Test q6 : 2
 		
-    	assert(naissances(nais2))===List((0,2),(2,2))
+    	assert(naissances(nais2))==List((0,2),(2,2))
   		
 
 
@@ -123,12 +123,12 @@ object JeuDeLaVie {
 
 	//Test q8 : 1
 		
-    	assert(vois41===List((0,2),(1,1),(1,3),(2,2)))
+    	assert(vois41==List((0,2),(1,1),(1,3),(2,2)))
   		
 
 	//Test q8 : 2
 		
-    	assert(vois42===List((-3,5),(-2,4),(-2,6),(-1,5)))
+    	assert(vois42==List((-3,5),(-2,4),(-2,6),(-1,5)))
   		
 
 	//Q9
@@ -138,22 +138,22 @@ object JeuDeLaVie {
 
 	//Test q9 : 1
 		
-    	assert(naitJDLV(2)===false)
+    	assert(naitJDLV(2)==false)
   		
 
 	//Test q9 : 2
 		
-    	assert(naitJDLV(3)===true)
+    	assert(naitJDLV(3)==true)
   		
 
 	//Test q9 : 3
 		
-    	assert(survitJDLV(1)===false)
+    	assert(survitJDLV(1)==false)
   		
 	
 	//Test q9 : 4
 		
-    	assert(survitJDLV(2)===true)
+    	assert(survitJDLV(2)==true)
   		
 
 	//Test q9 : 5
@@ -163,22 +163,22 @@ object JeuDeLaVie {
 
 	//Test q9 : 6
 		
-    	assert(naitF(2)===false)
+    	assert(naitF(2)==false)
   		
 
 	//Test q9 : 7
 		
-    	assert(naitF(3)===true)
+    	assert(naitF(3)==true)
   		
 
 	//Test q9 : 8
 		
-    	assert(survitF(1)===true)
+    	assert(survitF(1)==true)
   		
 	
 	//Test q9 : 9
 		
-    	assert(survitF(2)===false)
+    	assert(survitF(2)==false)
   		
 
 	
@@ -189,52 +189,52 @@ object JeuDeLaVie {
 		
 	//Test q10 : 1
 		
-    	assert(survivantesG(survG1,survitJDLV,voisines8)===List())
+    	assert(survivantesG(survG1,survitJDLV,voisines8)==List())
   		
 
 	//Test q10 : 2
 		
-    	assert(survivantesG(survG1,survitF,voisines4)===List())
+    	assert(survivantesG(survG1,survitF,voisines4)==List())
   		
 
 	//Test q10 : 3
 		
-    	assert(survivantesG(survG2,survitJDLV,voisines8)===List((1,2)))
+    	assert(survivantesG(survG2,survitJDLV,voisines8)==List((1,2)))
   		
 
 	//Test q10 : 4
 		
-    	assert(survivantesG(survG2,survitF,voisines4)===List())
+    	assert(survivantesG(survG2,survitF,voisines4)==List())
   		
 
 	//Test q10 : 5
 		
-    	assert(candidatesG(survG1,voisines8)===List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3)))
+    	assert(candidatesG(survG1,voisines8)==List((0,1),(0,2),(0,3),(1,1),(1,3),(2,1),(2,2),(2,3)))
   		
 
 	//Test q10 : 6
 		
-    	assert(candidatesG(survG1,voisines4)===List((0,2),(1,1),(1,3),(2,2)))
+    	assert(candidatesG(survG1,voisines4)==List((0,2),(1,1),(1,3),(2,2)))
   		
 
 	//Test q10 : 7
 		
-    	assert(naissancesG(survG1,naitJDLV,voisines8)===List())
+    	assert(naissancesG(survG1,naitJDLV,voisines8)==List())
   		
 
 	//Test q10 : 8
 		
-    	assert(naissancesG(survG1,naitF,voisines4)===List())
+    	assert(naissancesG(survG1,naitF,voisines4)==List())
   		
 
 	//Test q10 : 9
 		
-    	assert(naissancesG(survG2,naitJDLV,voisines8)===List((0,2),(2,2)))
+    	assert(naissancesG(survG2,naitJDLV,voisines8)==List((0,2),(2,2)))
   		
 
 	//Test q10 : 10
 		
-    	assert(naissancesG(survG2,naitF,voisines4)===List())
+    	assert(naissancesG(survG2,naitF,voisines4)==List())
   		
 	}
 
