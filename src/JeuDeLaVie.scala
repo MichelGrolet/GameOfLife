@@ -1,6 +1,8 @@
 import java.util.NoSuchElementException
 
 object JeuDeLaVie {
+	type Grille = List[(Int, Int)]
+
 	def main(args: Array[String]): Unit = {
 		val l = chainesToGrille(List(
 			"  X  ",
@@ -20,24 +22,21 @@ object JeuDeLaVie {
 		//moteurVariante(l, 5)
 	}
 
-	type Grille = List[(Int,Int)]
+	def lignes(l: List[String], ligne: Int): Grille = l match {
+		case Nil => Nil
+		case t :: q => colonnes(t, ligne, 0) ++ lignes(q, ligne + 1)
+	}
 
-	
-		def lignes(l:List[String],ligne:Int):Grille=l match{
-  			case Nil=>Nil
-  			case t::q=>colonnes(t,ligne,0)++lignes(q,ligne+1)
-  		}
+	def colonnes(l: String, ligne: Int, col: Int): Grille = l match {
+		case "" => Nil
+		case l => if (l.head == 'X') (ligne, col) :: colonnes(l.tail, ligne, col + 1)
+		else colonnes(l.tail, ligne, col + 1)
+	}
 
-  		def colonnes(l:String,ligne:Int,col:Int):Grille=l match{
-  			case ""=>Nil
-  			case l=> if(l.head=='X') (ligne,col)::colonnes(l.tail,ligne,col+1)
-  				else colonnes(l.tail,ligne,col+1)
-  		}
+	def chainesToGrille(l: List[String]): Grille = lignes(l, 0)
 
-		def chainesToGrille(l:List[String]):Grille=lignes(l,0)
-	
 	//q2
-	def afficherGrille(g:Grille):Unit = {
+	def afficherGrille(g: Grille): Unit = {
 		if (g.isEmpty)
 			println("(vide)")
 		else {
@@ -46,14 +45,14 @@ object JeuDeLaVie {
 				val (a1, a2) = a
 				val (b1, b2) = b
 				(if (a1 < b1) a1 else b1,
-				if (a2 > b2) b2 else a2))
+					if (a2 > b2) b2 else a2))
 
 			// couple maximal de la grille
 			val max = g reduceLeft ((a, b) =>
 				val (a1, a2) = a
 				val (b1, b2) = b
 				(if (a1 < b1) b1 else a1,
-				if (a2 > b2) a2 else b2))
+					if (a2 > b2) a2 else b2))
 
 			// itère de min à max et affiche quand le couple est dans g
 			// ._1 : ligne concernée
@@ -75,6 +74,7 @@ object JeuDeLaVie {
 					}
 				}
 			}
+
 			println()
 			iterer(min)
 			println()
@@ -82,32 +82,35 @@ object JeuDeLaVie {
 	}
 
 	//q3
-	def voisines8(l:Int,c:Int):List[(Int, Int)] = (l-1,c-1)::(l-1,c)::(l-1,c+1)::(l,c-1)::(l,c+1)::(l+1,c-1)::(l+1,c)::(l+1,c+1)::Nil
+	def voisines8(l: Int, c: Int): List[(Int, Int)] = (l - 1, c - 1) :: (l - 1, c) :: (l - 1, c + 1) :: (l, c - 1) :: (l, c + 1) :: (l + 1, c - 1) :: (l + 1, c) :: (l + 1, c + 1) :: Nil
 
 	//q4
-	def listeVoisinesVivantes(a:Int, b:Int, g:Grille):Grille = voisines8(a, b) filter ((va, vb)=>g.contains((va, vb)))
-	def survivantes(g:Grille):Grille =
-		g filter((ord, abs) =>
+	def listeVoisinesVivantes(a: Int, b: Int, g: Grille): Grille = voisines8(a, b) filter ((va, vb) => g.contains((va, vb)))
+
+	def survivantes(g: Grille): Grille =
+		g filter ((ord, abs) =>
 			val length = listeVoisinesVivantes(ord, abs, g).length
-			length == 2 || length == 3)
+			length ==
+			2 || length == 3)
 
 	//q5
-	def listeVoisinesMortes(a:Int, b:Int, g:Grille):Grille = voisines8(a, b) filter ((va, vb)=>(!g.contains((va, vb))))
-	def candidates(g:Grille):Grille =
-		(g foldLeft List.empty)((acc, elem)=> acc++listeVoisinesMortes(elem._1, elem._2, g))
+	def listeVoisinesMortes(a: Int, b: Int, g: Grille): Grille = voisines8(a, b) filter ((va, vb) => (!g.contains((va, vb))))
+
+	def candidates(g: Grille): Grille =
+		(g foldLeft List.empty) ((acc, elem) => acc ++ listeVoisinesMortes(elem._1, elem._2, g))
 
 
 	//q6
-	def naissances(g:Grille):Grille = candidates(g) filter((ord, abs) => listeVoisinesVivantes(ord, abs, g).length == 3)
+	def naissances(g: Grille): Grille = candidates(g) filter ((ord, abs) => listeVoisinesVivantes(ord, abs, g).length == 3)
 
 	//q7
-	def concat(a: Grille, b:Grille):Grille = (a foldLeft b)((acc, elem)=> if(!acc.contains(elem)) acc ++ List(elem) else acc)
+	def concat(a: Grille, b: Grille): Grille = (a foldLeft b) ((acc, elem) => if (!acc.contains(elem)) acc ++ List(elem) else acc)
 
-	def jeuDeLaVie(init:Grille, n:Int):Unit =
-		if (n>0) {
+	def jeuDeLaVie(init: Grille, n: Int): Unit =
+		if (n > 0) {
 			afficherGrille(init)
 			println("\n-=--=--=--=--=--=--=--=--=-\n")
-			jeuDeLaVie(concat(naissances(init), survivantes(init)), n-1)
+			jeuDeLaVie(concat(naissances(init), survivantes(init)), n - 1)
 		}
 
 	/**
