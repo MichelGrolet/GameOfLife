@@ -1,3 +1,5 @@
 .idea
 GameOfLife.iml
 out
+src/.metals
+src/.vscode
