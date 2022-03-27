@@ -245,10 +245,3 @@ class TestHello extends FunSuite{
     		assert(naissancesG(survG2,naitF,voisines4)===List())
   		}
 }
-
-
-
-
-
-
-
