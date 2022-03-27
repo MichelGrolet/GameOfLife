@@ -36,34 +36,6 @@ object JeuDeLaVie {
 
 		def chainesToGrille(l:List[String]):Grille=lignes(l,0)
 	
-
-	//q1
-	/*def chainesToGrille(l:List[String]):Grille = {
-		def coupleCroix(s:String, colonne:Int, ligne:Int, acc:Grille): Grille ={
-			if(colonne < s.length){
-				if(s.charAt(colonne) == 'X'){
-					val paire : (Int, Int) = (ligne, colonne)
-					coupleCroix(s, colonne+1, ligne, acc ++ List(paire))
-				}
-				else{
-					coupleCroix(s, colonne+1, ligne, acc)
-				}
-			}
-			else {
-				acc
-			}
-		}
-		// definition fonction qui permet de parcourir la liste
-		def donnerCouples(liste:List[String], num:Int): Grille = liste match {
-			case Nil => Nil
-			case t::q if(num < liste.length) => {
-				coupleCroix(liste(num), 0, num, Nil) ++ donnerCouples(liste, num+1)
-			}
-			case _ => Nil
-		}
-		donnerCouples(l, 0)
-	}*/
-
 	//q2
 	def afficherGrille(g:Grille):Unit = {
 		if (g.isEmpty)
