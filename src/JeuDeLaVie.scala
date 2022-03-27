@@ -22,7 +22,7 @@ object JeuDeLaVie {
 
 	type Grille = List[(Int,Int)]
 
-	/*
+	
 		def lignes(l:List[String],ligne:Int):Grille=l match{
   			case Nil=>Nil
   			case t::q=>colonnes(t,ligne,0)++lignes(q,ligne+1)
@@ -35,10 +35,10 @@ object JeuDeLaVie {
   		}
 
 		def chainesToGrille(l:List[String]):Grille=lignes(l,0)
-	*/
+	
 
 	//q1
-	def chainesToGrille(l:List[String]):Grille = {
+	/*def chainesToGrille(l:List[String]):Grille = {
 		def coupleCroix(s:String, colonne:Int, ligne:Int, acc:Grille): Grille ={
 			if(colonne < s.length){
 				if(s.charAt(colonne) == 'X'){
@@ -62,7 +62,7 @@ object JeuDeLaVie {
 			case _ => Nil
 		}
 		donnerCouples(l, 0)
-	}
+	}*/
 
 	//q2
 	def afficherGrille(g:Grille):Unit = {
