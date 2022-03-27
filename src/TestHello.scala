@@ -216,31 +216,21 @@ class TestHello extends FunSuite{
   		}
 
 	//Test q10 : 7
-		/*test("doit etre List((1,2))") {
-    		assert(candidatesG(survG2,voisines8)===List((1,2)))
-  		}*/
-
-	//Test q10 : 8
-		/*test("doit etre List())") {
-    		assert(candidatesG(survG2,voisines4)===List())
-  		}*/
-
-	//Test q10 : 9
 		test("doit etre List()") {
     		assert(naissancesG(survG1,naitJDLV,voisines8)===List())
   		}
 
-	//Test q10 : 10
+	//Test q10 : 8
 		test("doit etre List())") {
     		assert(naissancesG(survG1,naitF,voisines4)===List())
   		}
 
-	//Test q10 : 11
+	//Test q10 : 9
 		test("doit etre List((0,2),(2,2))") {
     		assert(naissancesG(survG2,naitJDLV,voisines8)===List((0,2),(2,2)))
   		}
 
-	//Test q10 : 12
+	//Test q10 : 10
 		test("doit etre List())") {
     		assert(naissancesG(survG2,naitF,voisines4)===List())
   		}
